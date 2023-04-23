@@ -47,8 +47,8 @@ public class longWalkHome extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                backgroundImage = new ImageIcon("java/data/street.png").getImage();
-                dudeImage = new ImageIcon("java/data/dude.png").getImage();
+                backgroundImage = new ImageIcon("Shapes_and_Sprites/street.png").getImage();
+                dudeImage = new ImageIcon("Shapes_and_Sprites/dude.png").getImage();
                 
 
                 Graphics2D g2D = (Graphics2D) g;
