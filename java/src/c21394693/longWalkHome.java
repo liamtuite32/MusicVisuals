@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import ddf.minim.AudioBuffer;
+import ddf.minim.AudioInput;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,13 +20,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /*
- * This class creates a "dude" sprite (still trying to figure out image loading)
+ * This class creates a "dude" sprite 
  * and runs a background image to make it look like hes moving through a town
- * Background image isn't working here but was on my local files will be looking into that
- * dude can jump and we have a "lamp" which will eventually be a streetlamp that moves across the screen to simulate movment
+ * Background image has been loaded in 
+ * dude can jump and we have a lamp that scrolls across the screen to simulate movement
  * Hopefully I can replace with a scrolling background
  * Music to be added and other events to make it actually fun to watch
  * Jump works pretty well though
+ * Still trying to get the song to play
  */
 
 public class longWalkHome extends JFrame {
@@ -29,6 +35,8 @@ public class longWalkHome extends JFrame {
     private static final int WINDOW_WIDTH = 1200; // Width of game window
     private static final int WINDOW_HEIGHT = 600; // Height of game window
     private static final int GROUND_HEIGHT = 50; // Height of the ground
+    private Minim minim;
+    AudioPlayer song;
 
     private boolean isJumping = false;
     private int dudeY = WINDOW_HEIGHT - GROUND_HEIGHT - 100; // Y-coordinate of the dude
@@ -37,6 +45,17 @@ public class longWalkHome extends JFrame {
     Image backgroundImage;
     Image dudeImage;
     Image streetLampImage;
+    int dudeWidth = 50; // Width of the dude image
+    int dudeHeight = 50; // Height of the dude image
+
+
+    public void setup() {
+
+        minim = new Minim(this);
+
+        song = minim.loadFile("endOfTheWorld.mp3");
+        song.play();
+    }
 
     public longWalkHome() {
         setTitle("Long Walk Home");
@@ -47,9 +66,11 @@ public class longWalkHome extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                backgroundImage = new ImageIcon("Shapes_and_Sprites/street.png").getImage();
-                dudeImage = new ImageIcon("Shapes_and_Sprites/dude.png").getImage();
-                
+
+                // Do you have to specify "java/data"? I thought it read from 'data' automatically?? - Cesar
+                backgroundImage = new ImageIcon("java/data/street.png").getImage();
+                dudeImage = new ImageIcon("java/data/dude.png").getImage();
+                streetLampImage = new ImageIcon("java/data/streetLamp.png").getImage();
 
                 Graphics2D g2D = (Graphics2D) g;
                 // background town image
@@ -60,13 +81,12 @@ public class longWalkHome extends JFrame {
                 g.fillRect(0, WINDOW_HEIGHT - GROUND_HEIGHT, WINDOW_WIDTH, GROUND_HEIGHT);
 
                 // Draw dude
-                //g.setColor(Color.BLACK);
-                //g.fillRect(100, dudeY, 50, 50);
-                g2D.drawImage(dudeImage, 100, dudeY, null);
+                g2D.drawImage(dudeImage, 100, dudeY, dudeWidth, dudeHeight, null);
 
                 // Draw "lamp"
-                g.setColor(Color.GRAY);
-                g.fillRect(lampX, WINDOW_HEIGHT - GROUND_HEIGHT - 50, 20, 100);
+                //g.setColor(Color.GRAY);
+                g2D.drawImage(streetLampImage, lampX, WINDOW_HEIGHT - GROUND_HEIGHT - streetLampImage.getHeight(null), streetLampImage.getWidth(null), streetLampImage.getHeight(null), null);
+                //g.fillRect(lampX, WINDOW_HEIGHT - GROUND_HEIGHT - 50, 20, 100);
 
             }
         };
@@ -84,32 +104,36 @@ public class longWalkHome extends JFrame {
             }
         });
 
+    
+
         Timer timer = new Timer(20, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Update dudes position
+            public void actionPerformed(ActionEvent e) {// Update dude position
                 dudeY += dudeYSpeed;
                 dudeYSpeed += 1; // Apply gravity
-                if (dudeY > WINDOW_HEIGHT - GROUND_HEIGHT - 50) {
-                    // dude has landed on the ground
-                    dudeY = WINDOW_HEIGHT - GROUND_HEIGHT - 50;
-                    dudeYSpeed = 0;
-                    isJumping = false;
+
+                // Check for collision with ground
+                if (dudeY >= WINDOW_HEIGHT - GROUND_HEIGHT - dudeHeight) {
+                    dudeY = WINDOW_HEIGHT - GROUND_HEIGHT - dudeHeight; // Set dude back on ground
+                    isJumping = false; // Reset jumping flag
                 }
 
-                // Update lamps position
+                // Update lamp position
                 lampX -= 5; // Move lamp towards left
-                if (lampX < -50) {
-                    // lamp has moved outside of the game window
-                    lampX = WINDOW_WIDTH; // Reset lamps position to the right edge of the window
+
+                // Check if lamp is out of screen, reset its position
+                if (lampX + 20 < 0) {
+                    lampX = WINDOW_WIDTH;
                 }
-                panel.repaint(); // Repaint the panel to update the game graphics
+
+                panel.repaint(); // Redraw the panel
             }
         });
-
         timer.start();
-        add(panel); // Add the panel to the JFrame
-        setVisible(true); // Set JFrame visible
+
+        add(panel);
+        setVisible(true);
     }
 
+    
 }
