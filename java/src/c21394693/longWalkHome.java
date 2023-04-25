@@ -68,8 +68,8 @@ public class longWalkHome extends JFrame {
                 super.paintComponent(g);
 
                 // Do you have to specify "java/data"? I thought it read from 'data' automatically?? - Cesar
-                backgroundImage = new ImageIcon("java/data/street.png").getImage();
-                dudeImage = new ImageIcon("java/data/dude.png").getImage();
+                backgroundImage = new ImageIcon("java/data/Shapes_and_Sprites/street.png").getImage();
+                dudeImage = new ImageIcon("java/data/Shapes_and_Sprites/dude.png").getImage();
                 streetLampImage = new ImageIcon("java/data/streetLamp.png").getImage();
 
                 Graphics2D g2D = (Graphics2D) g;

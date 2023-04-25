@@ -1,11 +1,11 @@
 package ie.tudublin;
 
 import c21394693.longWalkHome;
-import c21415142.Cesar_2;
+//import c21415142.Cesar_2;
 import example.CubeVisual;
 import example.MyVisual;
 import example.RotatingAudioBands;
-import ie.tudublin.Sketch_Select;
+//import ie.tudublin.Sketch_Select;
 
 public class Main {
 	public static int visual_to_run = -1; // -1 just means nothing has been selected
@@ -24,13 +24,15 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
 
+
+		longWalkHome game = new longWalkHome();
 		System.out.println("Start");
-		Thread option_menu = new Thread(new show_option_menu());
+		/*Thread option_menu = new Thread(new show_option_menu());
 		option_menu.start();
 		option_menu.join();
 
 		System.out.println("End");
-
+ 
 		switch (visual_to_run) {
 			case 0: // Stephens Long walk home
 				System.out.println("Doing " + visual_to_run);
@@ -59,8 +61,9 @@ public class Main {
 		}
 
 	}
+*/}
 }
-
+/* 
 class show_option_menu implements Runnable {
 	public void run() {
 		Sketch_Select option_menu = new Sketch_Select();
@@ -85,4 +88,4 @@ class show_option_menu implements Runnable {
 			}
 		}
 	}
-}
+}*/
