@@ -69,7 +69,9 @@ public class longWalkHome extends JFrame {
 
                 // Do you have to specify "java/data"? I thought it read from 'data' automatically?? - Cesar
                 backgroundImage = new ImageIcon("java/data/Shapes_and_Sprites/street.png").getImage();
-                dudeImage = new ImageIcon("java/data/Shapes_and_Sprites/dude.png").getImage();
+                //be aware this currently isnt working
+                //change it to dude.png if you want something to render
+                dudeImage = new ImageIcon("java/data/Shapes_and_Sprites/dude-20230428-195756.piskel").getImage();
                 streetLampImage = new ImageIcon("java/data/streetLamp.png").getImage();
 
                 Graphics2D g2D = (Graphics2D) g;
